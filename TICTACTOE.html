@@ -1,0 +1,91 @@
+<html>
+<head>
+<style>
+  button.hidden {
+    display: none;
+  }
+</style>
+</head>
+<body>
+<h1>tic tac toe in js</h1>
+<h2 id="winner"></h2>
+<button id="0" onClick="board.addValue(0)"></button>
+<button id="1" onClick="board.addValue(1)"></button>
+<button id="2" onClick="board.addValue(2)"></button>
+<br />
+<button id="3" onClick="board.addValue(3)"></button>
+<button id="4" onClick="board.addValue(4)"></button>
+<button id="5" onClick="board.addValue(5)"></button>
+<br />
+<button id="6" onClick="board.addValue(6)"></button>
+<button id="7" onClick="board.addValue(7)"></button>
+<button id="8" onClick="board.addValue(8)"></button>
+<br />
+<button id="resetButton" class ="hidden" onClick="board.reset()">reset</button>
+<script>
+class Board {
+  constructor () {
+    this.display = {}
+    this.value = "X"
+    this.winner = false
+    for(var i = 0; i < 9; i++) {
+      this.display[i] = ""
+    }
+  }
+
+  addValue (position) {
+    if(this.display[position] === "" && !this.winner) {
+      this.display[position] = this.value
+      this.changeTurn()
+      this.showCurrentDisplay()
+      this.calculateWinner()
+    }
+  }
+
+  changeTurn () {
+    if(this.value === "X") {
+      this.value = "O"
+    } else {
+      this.value = "X"
+    }
+  }
+
+  showCurrentDisplay () {
+    for (var key in this.display) {
+      document.getElementById(key).innerHTML = this.display[key]
+    }
+  }
+
+  calculateWinner () {
+    const winCombos = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6]
+    ]
+
+    winCombos.forEach((array) => {
+      if(this.display[array[0]] !== "" && this.display[array[0]] !== "" && this.display[array[0]] !== ""){
+        if(this.display[array[0]] === this.display[array[1]] && this.display[array[1]] === this.display[array[2]]) {
+          this.winner = true
+          document.getElementById('winner').innerHTML = this.display[array[0]] + " WINS"
+          document.getElementById('resetButton').className = ""
+          return
+        }
+      }
+    })
+  }
+
+  reset () {
+    location.reload()
+  }
+}
+
+let board = new Board()
+</script>
+</body>
+</html>

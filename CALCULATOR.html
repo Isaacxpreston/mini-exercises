@@ -1,0 +1,84 @@
+<html>
+<head>
+</head>
+<body>
+<h1>calculator in js</h1>
+<div id="screen">SCREEN</div>
+<button onClick="calculator.addValue(0)">0</button>
+<button onClick="calculator.addValue(1)">1</button>
+<button onClick="calculator.addValue(2)">2</button>
+<br />
+<button onClick="calculator.addValue(3)">3</button>
+<button onClick="calculator.addValue(4)">4</button>
+<button onClick="calculator.addValue(5)">5</button>
+<br />
+<button onClick="calculator.addValue(6)">6</button>
+<button onClick="calculator.addValue(7)">7</button>
+<button onClick="calculator.addValue(8)">8</button>
+<br />
+<button onClick="calculator.addValue(9)">9</button>
+<button onClick="calculator.addOperator('+')">+</button>
+<button onClick="calculator.addOperator('-')">-</button>
+<br />
+<button onClick="calculator.addOperator('*')">*</button>
+<button onClick="calculator.addOperator('/')">/</button>
+<button onClick="calculator.calculate()">CALCULATE</button>
+<script>
+class Calculator {
+  constructor () {
+    this.leftValue = []
+    this.rightValue = []
+    this.operator = null
+    this.calculated = 0
+  }
+  addValue (digit) {
+    if(!this.operator) {
+      if(this.leftValue.length < 1 && digit < 1) {
+        return
+      }
+      this.leftValue.push(digit)
+    } else {
+      if(this.rightValue.length < 1 && digit < 1) {
+        return
+      }
+      this.rightValue.push(digit)
+    }
+    this.showCurrentDisplay()
+  }
+  addOperator (operator) {
+    this.operator = operator
+    this.showCurrentDisplay()
+  }
+  showCurrentDisplay () {
+    if(this.operator) {
+      document.getElementById("screen").innerHTML = (
+        this.leftValue.join("") + this.operator + this.rightValue.join("")
+      )
+    } else {
+      document.getElementById("screen").innerHTML = (
+        this.leftValue.join("")
+      )
+    }
+
+  }
+  calculate () {
+    if(this.leftValue.length > 0 && this.rightValue.length > 0 && this.operator) {
+      this.calculated = eval(this.leftValue.join("") + this.operator + this.rightValue.join(""))
+      document.getElementById("screen").innerHTML = this.calculated;
+    } else {
+      document.getElementById("screen").innerHTML = "ERROR";
+    }
+    this.reset()
+  }
+  reset () {
+    this.leftValue = []
+    this.rightValue = []
+    this.operator = null
+    this.calculated = 0
+  }
+}
+
+let calculator = new Calculator()
+</script>
+</body>
+</html>
